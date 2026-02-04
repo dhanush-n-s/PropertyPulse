@@ -115,7 +115,7 @@ def mybookings(request):
         return redirect("Guest:Login")
     else:
         bookingdata=tbl_request.objects.filter(userid=request.session['uid'],request_status=1)
-        bookingpending=tbl_request.objects.filter(userid=request.session['uid'],request_status=2)
+        bookingpending=tbl_request.objects.filter(userid=request.session['uid'],request_status=0)
         return render(request,"User/Mybooking.html",{'bookingdata':bookingdata,'bookingpending':bookingpending})
     
 def payment(request,id):
