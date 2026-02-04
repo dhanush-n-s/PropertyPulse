@@ -1,0 +1,98 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View services</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+        }
+
+        table td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0066cc;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        center {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post">
+        <center>
+            <h1>Service Requests</h1>
+       
+        {% csrf_token %}
+        <table border="1">
+            <tr>
+                <td>SI No</td>
+                <td>Title</td>
+                <td>Details</td>
+                <td>Date</td>
+                <td>Time</td>
+                <td colspan="3" align="center">Action</td>
+            </tr>
+
+            {% for i in servicedata %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.servicerequest_title}}</td>
+                <td>{{i.servicerequest_details}}</td>
+                <td>{{i.servicerequest_date}}</td>
+                <td>{{i.servicerequest_time}}</td>
+                <td><a href="{% url 'Admin:acceptservice' i.id %}">Accept</a></td>
+
+                {% if i.servicerequest_status == 1 %}
+                <td><a href="{% url 'Admin:serviceamount' i.id %}">Pay Now</a></td>
+                {% endif %}
+
+                <td><a href="{% url 'Admin:rejectservice' i.id %}">Reject</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        </center>
+    </form>
+</body>
+</html>
+
+{% endblock content %}

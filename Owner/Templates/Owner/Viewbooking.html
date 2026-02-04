@@ -1,0 +1,110 @@
+{% extends 'Owner/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial, sans-serif;
+
+            /* IMPORTANT FIX */
+            padding-top: 120px;
+            /* adjust based on header height */
+            padding-bottom: 80px;
+            /* adjust based on footer height */
+        }
+
+        h1 {
+            margin: 20px 0;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: #ffffff;
+            margin: 20px auto;
+            min-width: 900px;
+            
+        }
+
+        table td {
+            padding: 10px 14px;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #e9ecef;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        img {
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        
+
+        td {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <form action="" method="post">
+        <center>
+            <h1>Bookings</h1>
+            {% csrf_token %}
+            <table border="2">
+                <tr>
+                    <td>Si No</td>
+                    <td>User details</td>
+                    <td>Property title</td>
+                    <td>Details</td>
+                    <td>Amount</td>
+                    <td>Photo</td>
+                    <td colspan="2" align="center">Action</td>
+                </tr>
+                {% for i in bookingdata %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.userid.user_name}} <br>
+
+                        {{i.userid.user_contact}} <br>
+                        {{i.userid.user_email}}
+                    </td>
+                    <td>{{i.property.property_title}}</td>
+                    <td>{{i.property.property_details}}</td>
+                    <td>{{i.property.property_amount}}</td>
+                    <td><img src="{{i.property.property_photo.url}}" width="100px" /></td>
+                    <td>
+                        {% if i.request_status == 0 %}
+
+                        <a href="{% url 'Owner:acceptbooking' i.id  %}">Accept</a>
+                        <a href="{% url 'Owner:rejectbooking' i.id %}">Reject</a>
+                        {% elif i.request_status == 1 %}
+                        Accepted
+                        {% elif i.request_status == 2 %}
+                        Rejected
+                        {% elif i.request_status == 3 %}
+                        Advance Paid - {{i.request_advance}} /-
+                        {% endif %}
+
+                    </td>
+                </tr>
+                {% endfor %}
+        </center>
+        </table>
+    </form>
+</body>
+
+</html>
+{% endblock content %}

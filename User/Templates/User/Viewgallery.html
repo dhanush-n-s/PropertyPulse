@@ -1,0 +1,92 @@
+{% extends 'User/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Gallery</title>
+
+    <!-- CSS ADDED -->
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin: 30px 0 20px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        table {
+            background: #ffffff;
+            border-collapse: collapse;
+            width: 70%;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        table td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #2f15d9;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        img {
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 768px) {
+            table {
+                width: 95%;
+            }
+
+            img {
+                width: 180px;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <center>
+            <h1>Gallery</h1>
+            {% csrf_token %}
+            <table border="2">
+                <table border="2">
+                    <tr>
+                        <td>Sno</td>
+                        <td>Photo</td>
+                    </tr>
+                    {% for i in gallerydata %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            <img src="{{ i.gallery_photo.url }}" width="250" height="250">
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+        </center>
+    </form>
+</body>
+</html>
+
+{% endblock content %}

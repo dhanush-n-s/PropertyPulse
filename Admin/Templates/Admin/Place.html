@@ -1,0 +1,134 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place</title>
+
+    <!-- CSS ADDED ONLY -->
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial, sans-serif;
+
+            /* Fix header/footer overlap */
+            padding-top: 120px;
+            padding-bottom: 80px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: #ffffff;
+            margin: 20px auto;
+            min-width: 700px;
+        }
+
+        table td {
+            padding: 10px 14px;
+            border: 1px solid #dee2e6;
+            font-size: 14px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+
+        select,
+        input[type="text"] {
+            padding: 6px;
+            width: 90%;
+        }
+
+        input[type="submit"] {
+            padding: 8px 18px;
+            background-color: #0d6efd;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #084298;
+        }
+        a[href*="del"] {
+            background-color: #8a8484;
+        }
+       
+        a[href*="edit"]{
+            background-color: aqua;
+        }
+        a:hover {
+            background-color: #146c43;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post">
+        <center><h1>Place</h1>
+          {% csrf_token %}
+        <table border="2"><tr>
+            <td>District</td>
+            <td>
+                <select name="sel_district">
+                    <option value="">select District</option>
+                    {% for i in districtdata %}
+                    <option {% if i.id == editdata.district.id %}
+                    selected
+                    {% endif %}
+                     value="{{i.id}}">{{i.district_name}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Place</td>
+            <td><input required type="text" name="txt_place" value="{{editdata.place_name}}" title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter" pattern="^[A-Z]+[a-zA-Z ]*$"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><input type="submit" value="submit"></td>
+        </tr></table>
+
+         <table border="2">
+            <tr>
+                <td>Sno</td>
+                <td>District Name</td>
+                <td>Place Name </td>
+                <td colspan="2" align="center">Action</td>
+            </tr>
+            <tr>
+        <tr>
+        {% for i in place %}
+            <td>{{forloop.counter}}</td>
+            <td>{{i.district.district_name}}</td>
+            <td>{{i.place_name}}</td>
+            <td><a href="{% url 'Admin:editplace' i.id %}">Edit</a></td>
+            <td><a href="{% url 'Admin:delplace' i.id %}">Delete</a></td>
+        </tr>
+        {% endfor %} 
+        </table>
+    
+    </form>
+  </center>
+</body>
+
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Admin:Place' %}"
+</script>
+{% endif %}
+</html>
+{% endblock content %}

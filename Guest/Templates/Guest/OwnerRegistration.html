@@ -1,0 +1,216 @@
+{% extends 'Guest/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner</title>
+
+    <!-- CSS ADDED -->
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f2f5f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        table {
+            background: #ffffff;
+            border-collapse: collapse;
+            width: 650px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        table td {
+            padding: 12px 15px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        table td:first-child {
+            width: 35%;
+            font-weight: 500;
+            background: #f8f9fa;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #007bff;
+        }
+
+        input[type="submit"] {
+            background: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 22px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                width: 95%;
+            }
+
+            table td {
+                display: block;
+                width: 100%;
+            }
+
+            table td:first-child {
+                background: transparent;
+                padding-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <center>
+            <br><br><br><br><br><br>
+            <h1>Owner Registration</h1>
+            {% csrf_token %}
+            <table border="1">
+                <tr>
+                    <td>Owner Name</td>
+                    <td>
+                        <input required type="text" name="txt_ownername"
+                               title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter"
+                               pattern="^[A-Z]+[a-zA-Z ]*$">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Owner Email</td>
+                    <td><input required type="text" name="txt_owneremail"></td>
+                </tr>
+
+                <tr>
+                    <td>Owner Contact</td>
+                    <td>
+                        <input type="text" name="txt_ownercontact"
+                               pattern="[7-9]{1}[0-9]{9}"
+                               title="Phone number with 7-9 and remaing 9 digit with 0-9">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Address</td>
+                    <td><textarea name="txt_owneraddress" required></textarea></td>
+                </tr>
+
+                <tr>
+                    <td>Owner photo</td>
+                    <td><input type="file" name="txt_ownerphoto"></td>
+                </tr>
+
+                <tr>
+                    <td>Owner Proof</td>
+                    <td><input type="file" name="txt_ownerproof"></td>
+                </tr>
+
+                <tr>
+                    <td>District</td>
+                    <td>
+                        <select name="sel_district" id="sel_district">
+                            <option value="">select District</option>
+                            {% for i in districtdata %}
+                            <option value="{{i.id}}">
+                                {{i.district_name}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Place</td>
+                    <td>
+                        <select name="sel_place" id="sel_place">
+                            <option value="">select Place</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Owner password</td>
+                    <td>
+                        <input required type="password" name="txt_ownerproof"
+                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                               title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Register">
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </form>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $('#sel_district').change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Guest:AjaxPlace' %}";
+        $.ajax({
+            url: ur,
+            data: { did: did },
+            success: function (data) {
+                $('#sel_place').html(data);
+            }
+        });
+    });
+</script>
+</html>
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location.href = "{% url 'Guest:OwnerRegistration' %}";
+</script>
+{% endif %}
+{% endblock content %}

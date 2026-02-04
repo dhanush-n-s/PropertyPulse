@@ -1,0 +1,129 @@
+{% extends 'User/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services</title>
+
+    <!-- CSS ADDED -->
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .service-wrapper {
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 10px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 95%;
+            max-width: 1100px;
+            background: #ffffff;
+            border-collapse: collapse;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        table td {
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            font-size: 14px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #007bff;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .accept {
+            color: #28a745;
+        }
+
+        .accept:hover {
+            text-decoration: underline;
+        }
+
+        .reject {
+            color: #dc3545;
+        }
+
+        .reject:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                font-size: 13px;
+            }
+
+            table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+    <div class="service-wrapper">
+        <h1>Service Requests</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <table border="2">
+                <tr>
+                    <td>Sl No</td>
+                    <td>Title</td>
+                    <td>Details</td>
+                    <td>Reply</td>
+                    <td>Request ID</td>
+                    <td>Time</td>
+                    <td>Date</td>
+                    <td>Amount</td>
+                    <td colspan="2">Action</td>
+                </tr>
+
+                {% for i in servicerequestdata %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ i.servicerequest_title }}</td>
+                    <td>{{ i.servicerequest_details }}</td>
+                    <td>{{ i.servicerequest_reply }}</td>
+                    <td>{{ i.requestid.id }}</td>
+                    <td>{{ i.servicerequest_time }}</td>
+                    <td>{{ i.servicerequest_date }}</td>
+                    <td>{{ i.servicerequest_amount }}</td>
+                    <td><a href="" class="accept">Accept</a></td>
+                    <td><a href="" class="reject">Reject</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </form>
+    </div>
+</body>
+</html>
+
+{% endblock content %}

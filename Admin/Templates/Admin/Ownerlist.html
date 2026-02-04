@@ -1,0 +1,191 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        form {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 95%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #ffffff;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #333;
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        img {
+            display: block;
+            margin: auto;
+            border-radius: 5px;
+        }
+
+        
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        center {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post">
+        <center>
+
+        {% csrf_token %}
+        <table border="1">
+            <tr>
+                <td>SI No</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Contact</td>
+                <td>Address</td>
+                <td>Photo</td>
+                <td>Proof</td>
+                <td>District</td>
+                <td>Place</td>
+                <td>DOJ</td>
+                <td colspan="2" align="center">Status</td>
+            </tr>
+            {% for i in ownerdata %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.owner_name}}</td>
+                <td>{{i.owner_email}}</td>
+                <td>{{i.owner_contact}}</td>
+                <td>{{i.owner_address}}</td>
+                <td><img src="{{i.owner_photo.url}}" width="100px" /></td>
+                <td><img src="{{i.owner_proof.url}}" width="100px" /></td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+                <td>{{i.owner_doj}}</td>
+                <td>
+                    {% if i.owner_status == 0 %}
+                    <a href="{% url 'Admin:owneraccept' i.id %}">Accept</a>
+                </td>
+                <td><a href="{% url 'Admin:ownerreject' i.id %}">Reject</a>
+                    {% elif i.owner_status == 1 %}
+                    Verified
+                    {% elif i.owner_status == 2 %}
+                    Rejected
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <br><br>
+
+        <table border="1">
+            <tr>
+                <h1><b>Accepted Owners</b></h1>
+                <td>SI No</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Contact</td>
+                <td>Address</td>
+                <td>Photo</td>
+                <td>Proof</td>
+                <td>District</td>
+                <td>Place</td>
+                <td>DOJ</td>
+                <td colspan="2" align="center">Status</td>
+            </tr>
+            {% for i in owneraccept %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.owner_name}}</td>
+                <td>{{i.owner_email}}</td>
+                <td>{{i.owner_contact}}</td>
+                <td>{{i.owner_address}}</td>
+                <td><img src="{{i.owner_photo.url}}" width="100px" /></td>
+                <td><img src="{{i.owner_proof.url}}" width="100px" /></td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+                <td>{{i.owner_doj}}</td>
+                <td>
+                    {% if i.owner_status == 1 %}
+                    Verified
+                    {% elif i.owner_status == 2 %}
+                    Rejected
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <br><br>
+
+        <table border="1">
+            <tr>
+                <h1><b>Rejected Owners</b></h1>
+                <td>SI No</td>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Contact</td>
+                <td>Address</td>
+                <td>Photo</td>
+                <td>Proof</td>
+                <td>District</td>
+                <td>Place</td>
+                <td>DOJ</td>
+                <td>Status</td>
+            </tr>
+            {% for i in ownerreject %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.owner_name}}</td>
+                <td>{{i.owner_email}}</td>
+                <td>{{i.owner_contact}}</td>
+                <td>{{i.owner_address}}</td>
+                <td><img src="{{i.owner_photo.url}}" width="100px" /></td>
+                <td><img src="{{i.owner_proof.url}}" width="100px" /></td>
+                <td>{{i.place.district.district_name}}</td>
+                <td>{{i.place.place_name}}</td>
+                <td>{{i.owner_doj}}</td>
+                <td>Rejected</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        </center>
+    </form>
+</body>
+
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'Admin:Ownerlist' %}"
+</script>
+{% endif %}
+</html>
+{% endblock content %}

@@ -1,0 +1,262 @@
+{% extends 'Owner/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Property</title>
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .containers {
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        .form-table,
+        .list-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .form-table td {
+            padding: 12px;
+        }
+
+        .list-table th,
+        .list-table td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            text-align: center;
+        }
+
+        .list-table th {
+            background-color: #f1f3f5;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        input[type="radio"] {
+            margin-right: 6px;
+            margin-left: 12px;
+        }
+
+        .btn {
+            padding: 8px 18px;
+            border-radius: 5px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #084298;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            background-color: #b02a37;
+        }
+
+        .btn-link {
+            color: #0d6efd;
+            font-weight: 500;
+        }
+
+        img {
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .list-table {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<br><br>    <br><br>
+<div class="containers">
+
+    <!-- ADD PROPERTY -->
+    <div class="card">
+        <h1 class="text-center">Add Property</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <table class="form-table">
+                <tr>
+                    <td>Title</td>
+                    <td><input required type="text" name="txt_title"></td>
+                </tr>
+                <tr>
+                    <td>Details</td>
+                    <td><textarea name="txt_details" rows="4" required></textarea></td>
+                </tr>
+                <tr>
+                    <td>Type</td>
+                    <td>
+                        <input type="radio" name="txt_type" value="Rent"> Rent
+                        <input type="radio" name="txt_type" value="Lease"> Lease
+                    </td>
+                </tr>
+                <tr>
+                    <td>Property Type</td>
+                    <td>
+                        <select name="sel_propertytype">
+                            <option value="">Select Property Type</option>
+                            {% for i in propertytypedata %}
+                            <option value="{{i.id}}">{{i.propertytype_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>District</td>
+                    <td>
+                        <select name="sel_district" id="sel_district">
+                            <option value="">Select District</option>
+                            {% for i in districtdata %}
+                            <option value="{{i.id}}">{{i.district_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Place</td>
+                    <td>
+                        <select name="sel_place" id="sel_place">
+                            <option value="">Select Place</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Photo</td>
+                    <td><input required type="file" name="txt_photo"></td>
+                </tr>
+                <tr>
+                    <td>Amount</td>
+                    <td><input required type="text" name="txt_price"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <!-- PROPERTY LIST -->
+    <div class="card">
+        <h1 class="text-center">My Properties</h1>
+        <table class="list-table">
+            <tr>
+                <th>S.No</th>
+                <th>Title</th>
+                <th>Details</th>
+                <th>Type</th>
+                <th>Photo</th>
+                <th>Amount</th>
+                <th>Place</th>
+                <th>Action</th>
+                <th>Gallery</th>
+            </tr>
+            {% for i in propertydata %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.property_title}}</td>
+                <td>{{i.property_details}}</td>
+                <td>{{i.propertytype_id.propertytype_name}}</td>
+                <td><img src="{{i.property_photo.url}}" width="90" height="90"></td>
+                <td>{{i.property_amount}}</td>
+                <td>{{i.place.place_name}}</td>
+                <td>
+                    <a href="{% url 'Owner:delproperty' i.id %}" class="btn btn-danger">Delete</a>
+                </td>
+                <td>
+                    <a href="{% url 'Owner:gallery' i.id %}" class="btn btn-link">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $('#sel_district').change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Guest:AjaxPlace' %}";
+        $.ajax({
+            url: ur,
+            data: { did: did },
+            success: function (data) {
+                $('#sel_place').html(data);
+            }
+        });
+    });
+</script>
+
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'Owner:property' %}"
+</script>
+{% endif %}
+
+</body>
+</html>
+
+{% endblock content %}

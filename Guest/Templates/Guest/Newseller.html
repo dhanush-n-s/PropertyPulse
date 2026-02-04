@@ -1,0 +1,245 @@
+{% extends 'Guest/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- CSS ADDED -->
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        table {
+            background: #ffffff;
+            border-collapse: collapse;
+            width: 650px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        table tr td {
+            padding: 12px 15px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        table tr td:first-child {
+            font-weight: 500;
+            background: #f8f9fa;
+            width: 35%;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="date"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #007bff;
+        }
+
+        input[type="submit"] {
+            background: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin: 5px;
+        }
+
+        input[type="submit"][value="Cancel"] {
+            background: #6c757d;
+        }
+
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+
+        input[type="submit"][value="Cancel"]:hover {
+            background: #545b62;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                width: 95%;
+            }
+
+            table tr td {
+                display: block;
+                width: 100%;
+            }
+
+            table tr td:first-child {
+                background: transparent;
+                padding-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <br><br><br><br><br><br>
+        {% csrf_token %}
+        <center>
+            <h1>New Seller Registration</h1>
+
+            <table border="2">
+                <tr>
+                    <td>Name</td>
+                    <td>
+                        <input required="text" name="txt_name"
+                               title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter"
+                               pattern="^[A-Z]+[a-zA-Z ]*$">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Contact No</td>
+                    <td>
+                        <input required="text" name="txt_contact"
+                               pattern="[7-9]{1}[0-9]{9}"
+                               title="Phone number with 7-9 and remaing 9 digit with 0-9">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Email</td>
+                    <td><input required type="text" name="txt_mail"></td>
+                </tr>
+
+                <tr>
+                    <td>Password</td>
+                    <td>
+                        <input required type="password" name="txt_pass"
+                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                               title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Confirm Password</td>
+                    <td><input required type="password" name="conf_contact"></td>
+                </tr>
+
+                <tr>
+                    <td>District</td>
+                    <td>
+                        <select name="sel_district" id="sel_district">
+                            <option value="">select District</option>
+                            {% for i in districtdata %}
+                            <option {% if i.id == editdata.district.id %}selected{% endif %}
+                                    value="{{i.id}}">
+                                {{i.district_name}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Place</td>
+                    <td>
+                        <select name="sel_place" id="sel_place">
+                            <option value="">select Place</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Establish Date</td>
+                    <td><input required type="date" name="est_date"></td>
+                </tr>
+
+                <tr>
+                    <td>License No</td>
+                    <td><input required type="text" name="txt_lic"></td>
+                </tr>
+
+                <tr>
+                    <td>Owner Name</td>
+                    <td>
+                        <input required type="text" name="own_name"
+                               title="Name Allows Only Alphabets,Spaces and First Letter Must Be Capital Letter"
+                               pattern="^[A-Z]+[a-zA-Z ]*$">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>License Proof</td>
+                    <td><input required type="file" name="lic_proof"></td>
+                </tr>
+
+                <tr>
+                    <td>Owner Proof</td>
+                    <td><input required type="file" name="own_proof"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit">
+                        <input type="submit" value="Cancel">
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </form>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $('#sel_district').change(function () {
+        var did = $(this).val();
+        var ur = "{% url 'Guest:AjaxPlace' %}";
+        $.ajax({
+            url: ur,
+            data: { did: did },
+            success: function (data) {
+                $('#sel_place').html(data);
+            }
+        });
+    });
+</script>
+
+</html>
+
+{% if msg %}
+<script>
+    alert("{{msg}}");
+    window.location.href = "{% url 'Guest:newseller' %}";
+</script>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,202 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- CSS ADDED ONLY -->
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial, sans-serif;
+            padding-top: 120px;   /* space for header */
+            padding-bottom: 80px; /* space for footer */
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin: 20px 0;
+        }
+
+        table {
+            border-collapse: collapse;
+            background-color: #ffffff;
+            margin: 20px auto;
+            min-width: 1200px;
+        }
+
+        table td {
+            padding: 10px 12px;
+            border: 1px solid #dee2e6;
+            font-size: 14px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #e9ecef;
+            font-weight: bold;
+        }
+
+        img {
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        
+
+        a:hover {
+            background-color: #084298;
+        }
+    </style>
+</head>
+
+<body>
+    <form method="post">
+        <center>
+            <h1>Seller List</h1>
+        {% csrf_token %}
+        <table border="1"><tr>
+            <td>SI No</td>
+            <td>Name</td>
+            <td>Contact</td>
+            <td>Email</td>
+            <td>District</td>
+            <td>Place</td>
+            <td>Est_date</td>
+            <td>License No</td>
+            <td>Owner Name</td>
+            <td>License proof</td>
+            <td>Owner Proof</td>
+            <td colspan="2" align="center">Action</td>
+        </tr>
+        {% for i in seller %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.seller_name}}</td>
+            <td>{{i.seller_contact}}</td>
+            <td>{{i.seller_email}}</td>
+            <td>{{i.place.district.district_name}}</td>
+            <td>{{i.place.place_name}}</td>
+            <td>{{i.estd_date}}</td>
+            <td>{{i.license_num}}</td>
+            <td>{{i.owner_name}}</td>
+            <td><img src="{{i.license_proof.url}}" width="100px"/></td>
+            <td><img src="{{i.owner_proof.url}}" width="100px"/></td>
+            <td>
+                {% if i.seller_status == 0 %}
+                <a href="{% url 'Admin:acceptseller' i.id %}">Accept</a></td>
+            <td><a href="{% url 'Admin:rejectseller' i.id %}">Reject</a>
+            {% elif i.seller_status == 1 %}
+                Verified
+            {% elif i.seller_status == 2 %}
+                Rejected
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+<br><br>
+
+    <table border="1"><tr>
+        <h1>Accepted Sellers</h1>
+            <td>SI No</td>
+            <td>Name</td>
+            <td>Contact</td>
+            <td>Email</td>
+            <td>District</td>
+            <td>Place</td>
+            <td>Est_date</td>
+            <td>License No</td>
+            <td>Owner Name</td>
+            <td>License proof</td>
+            <td>Owner Proof</td>
+            <td colspan="2" align="center">Action</td>
+        </tr>
+        {% for i in selleraccept %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.seller_name}}</td>
+            <td>{{i.seller_contact}}</td>
+            <td>{{i.seller_email}}</td>
+            <td>{{i.place.district.district_name}}</td>
+            <td>{{i.place.place_name}}</td>
+            <td>{{i.estd_date}}</td>
+            <td>{{i.license_num}}</td>
+            <td>{{i.owner_name}}</td>
+            <td><img src="{{i.license_proof.url}}" width="100px"/></td>
+            <td><img src="{{i.owner_proof.url}}" width="100px"/></td>
+            <td>
+                {% if i.seller_status == 0 %}
+                <a href="{% url 'Admin:acceptseller' i.id %}">Accept</a></td>
+            <td><a href="{% url 'Admin:rejectseller' i.id %}">Reject</a>
+            {% elif i.seller_status == 1 %}
+                Verified
+            {% elif i.seller_status == 2 %}
+                Rejected
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+<br><br>
+
+    <table border="1"><tr>
+        <h1>Rejected Sellers</h1>
+            <td>SI No</td>
+            <td>Name</td>
+            <td>Contact</td>
+            <td>Email</td>
+            <td>District</td>
+            <td>Place</td>
+            <td>Est_date</td>
+            <td>License No</td>
+            <td>Owner Name</td>
+            <td>License proof</td>
+            <td>Owner Proof</td>
+            <td colspan="2" align="center">Action</td>
+        </tr>
+        {% for i in sellerreject %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.seller_name}}</td>
+            <td>{{i.seller_contact}}</td>
+            <td>{{i.seller_email}}</td>
+            <td>{{i.place.district.district_name}}</td>
+            <td>{{i.place.place_name}}</td>
+            <td>{{i.estd_date}}</td>
+            <td>{{i.license_num}}</td>
+            <td>{{i.owner_name}}</td>
+            <td><img src="{{i.license_proof.url}}" width="100px"/></td>
+            <td><img src="{{i.owner_proof.url}}" width="100px"/></td>
+            <td>
+                {% if i.seller_status == 0 %}
+                <a href="{% url 'Admin:acceptseller' i.id %}">Accept</a></td>
+            <td><a href="{% url 'Admin:rejectseller' i.id %}">Reject</a>
+            {% elif i.seller_status == 1 %}
+                Verified
+            {% elif i.seller_status == 2 %}
+                Rejected
+            {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </form>
+    </center>
+</body>
+
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location="{% url 'Admin:Sellerlist' %}"
+</script>
+{% endif %}
+</html>
+{% endblock content %}

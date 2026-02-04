@@ -1,0 +1,169 @@
+{% extends 'Owner/Head.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+
+    <!-- CSS ADDED -->
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-wrapper {
+            min-height: 85vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-box {
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 550px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        table tr:first-child {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+
+        img {
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-actions {
+            text-align: center;
+        }
+
+        .profile-actions a {
+            display: inline-block;
+            margin: 8px 10px;
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .profile-actions a:hover {
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .profile-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="profile-wrapper">
+        <div class="profile-box">
+            <h1>My Profile</h1>
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <table border="1">
+                    <tr>
+                        <td>Name</td>
+                        <td>{{data.owner_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td>{{data.owner_email}}</td>
+                    </tr>
+                    <tr>
+                        <td>Contact</td>
+                        <td>{{data.owner_contact}}</td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td>{{data.owner_address}}</td>
+                    </tr>
+                    <tr>
+                        <td>District</td>
+                        <td>{{data.place.district.district_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Place</td>
+                        <td>{{data.place.place_name}}</td>
+                    </tr>
+                    <tr>
+                        <td>Owner Proof</td>
+                        <td align="center">
+                            <img src="{{data.owner_proof.url}}" alt="Owner Proof" width="150" height="150">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Owner Photo</td>
+                        <td align="center">
+                            <img src="{{data.owner_photo.url}}" alt="Owner Photo" width="150" height="150">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="profile-actions">
+                            <a href="{% url 'Owner:EditProfile' %}">Edit Profile</a>
+                            <a href="{% url 'Owner:ChangePassword' %}">Change Password</a>
+                            <a href="{% url 'Owner:property' %}">Add Property</a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            
+        </div>
+    </div>
+    <br>
+</body>
+
+</html>
+
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'Owner:Profile' %}"
+</script>
+{% endif %}
+
+{% endblock content %}

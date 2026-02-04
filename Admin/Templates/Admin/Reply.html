@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reply</title>
+</head>
+<body>
+  <form method="post">
+    <table border="2"><tr>
+        {% csrf_token %}
+        <td>Reply</td>
+        <td><textarea name="txt_reply" required rows="3" cols="30"></textarea></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td><input type="submit" value="submit"></td>
+    </tr></table>
+  </form>  
+</body>
+</html>
+{% if msg %}
+<script>
+    alert("{{msg}}")
+    window.location = "{% url 'Admin:Viewcomplaint' %}"
+</script>
+{% endif %}
