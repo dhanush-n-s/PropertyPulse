@@ -4,6 +4,166 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Complaint</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        form {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        center {
+            display: block;
+        }
+
+        h1 {
+            color: #333;
+            margin: 30px 0 20px 0;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h1:first-child {
+            margin-top: 0;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            border: none !important;
+        }
+
+        tr:first-child {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px 12px;
+            text-align: left;
+            border: 1px solid #e0e0e0 !important;
+            font-size: 14px;
+            color: #555;
+        }
+
+        tr:first-child td {
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            color: white;
+        }
+
+        tr:not(:first-child):hover {
+            background-color: #f8f9ff;
+            transition: background-color 0.3s ease;
+        }
+
+        tr:nth-child(even):not(:first-child) {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(even):not(:first-child):hover {
+            background-color: #f0f0ff;
+        }
+
+        a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background: #f0f0ff;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: 1px solid #667eea;
+        }
+
+        a:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        br {
+            display: block;
+            margin: 10px 0;
+            content: "";
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            form {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            td {
+                padding: 10px 8px;
+            }
+
+            a {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Scrollable table container for mobile */
+        @media (max-width: 1024px) {
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
 </head>
 <body>
     <form method="post">
