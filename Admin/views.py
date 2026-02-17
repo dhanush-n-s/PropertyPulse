@@ -448,3 +448,17 @@ def serviceamount(request,sid):
 def logout(request):
     del request.session['aid']
     return redirect("Guest:Login")
+
+
+def AdminDashboard(request):
+    pending_count = tbl_request.objects.filter(request_status=0).count()
+    approved_count = tbl_request.objects.filter(request_status=1).count()
+    sold_count = tbl_request.objects.filter(request_status=3).count()
+
+    context = {
+        "pie_labels": ["Pending", "Approved", "Sold"],
+        "pie_data": [pending_count, approved_count, sold_count],
+    }
+
+    return render(request, "Admin/Homepage.html", context)
+    

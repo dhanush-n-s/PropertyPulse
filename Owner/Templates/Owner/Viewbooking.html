@@ -103,6 +103,140 @@
                 {% endfor %}
         </center>
         </table>
+
+
+         <center>
+            <h1>New requests</h1>
+            {% csrf_token %}
+            <input type="date" value="select date"><br><br>
+            <input type="date" value="select date">
+            <table border="2">
+                <tr>
+                    <td>Si No</td>
+                    <td>User details</td>
+                    <td>Property title</td>
+                    <td>Details</td>
+                    <td>Amount</td>
+                    <td>Photo</td>
+                    <td colspan="2" align="center">Action</td>
+                </tr>
+                {% for i in bookingdata %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.userid.user_name}} <br>
+
+                        {{i.userid.user_contact}} <br>
+                        {{i.userid.user_email}}
+                    </td>
+                    <td>{{i.property.property_title}}</td>
+                    <td>{{i.property.property_details}}</td>
+                    <td>{{i.property.property_amount}}</td>
+                    <td><img src="{{i.property.property_photo.url}}" width="100px" /></td>
+                    <td>
+                        {% if i.request_status == 0 %}
+
+                        <a href="{% url 'Owner:acceptbooking' i.id  %}">Accept</a>
+                        <a href="{% url 'Owner:rejectbooking' i.id %}">Reject</a>
+                        {% elif i.request_status == 1 %}
+                        Accepted
+                        {% elif i.request_status == 2 %}
+                        Rejected
+                        {% elif i.request_status == 3 %}
+                        Advance Paid - {{i.request_advance}} /-
+                        {% endif %}
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </center>
+
+        <center>
+            <h1>Accepted Requests</h1>
+            {% csrf_token %}
+            <table border="2">
+                <tr>
+                    <td>Si No</td>
+                    <td>User details</td>
+                    <td>Property title</td>
+                    <td>Details</td>
+                    <td>Amount</td>
+                    <td>Photo</td>
+                    <td colspan="2" align="center">Action</td>
+                </tr>
+                {% for i in bookingdata %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.userid.user_name}} <br>
+
+                        {{i.userid.user_contact}} <br>
+                        {{i.userid.user_email}}
+                    </td>
+                    <td>{{i.property.property_title}}</td>
+                    <td>{{i.property.property_details}}</td>
+                    <td>{{i.property.property_amount}}</td>
+                    <td><img src="{{i.property.property_photo.url}}" width="100px" /></td>
+                    <td>
+                        {% if i.request_status == 0 %}
+
+                        <a href="{% url 'Owner:acceptbooking' i.id  %}">Accept</a>
+                        <a href="{% url 'Owner:rejectbooking' i.id %}">Reject</a>
+                        {% elif i.request_status == 1 %}
+                        Accepted
+                        {% elif i.request_status == 2 %}
+                        Rejected
+                        {% elif i.request_status == 3 %}
+                        Advance Paid - {{i.request_advance}} /-
+                        {% endif %}
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </center>
+        <center>
+            <h1>Paid</h1>
+            {% csrf_token %}
+            <table border="2">
+                <tr>
+                    <td>Si No</td>
+                    <td>User details</td>
+                    <td>Property title</td>
+                    <td>Details</td>
+                    <td>Amount</td>
+                    <td>Photo</td>
+                    <td colspan="2" align="center">Action</td>
+                </tr>
+                {% for i in bookingdata %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.userid.user_name}} <br>
+
+                        {{i.userid.user_contact}} <br>
+                        {{i.userid.user_email}}
+                    </td>
+                    <td>{{i.property.property_title}}</td>
+                    <td>{{i.property.property_details}}</td>
+                    <td>{{i.property.property_amount}}</td>
+                    <td><img src="{{i.property.property_photo.url}}" width="100px" /></td>
+                    <td>
+                        {% if i.request_status == 0 %}
+
+                        <a href="{% url 'Owner:acceptbooking' i.id  %}">Accept</a>
+                        <a href="{% url 'Owner:rejectbooking' i.id %}">Reject</a>
+                        {% elif i.request_status == 1 %}
+                        Accepted
+                        {% elif i.request_status == 2 %}
+                        Rejected
+                        {% elif i.request_status == 3 %}
+                        Advance Paid - {{i.request_advance}} /-
+                        {% endif %}
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </center>
     </form>
 </body>
 

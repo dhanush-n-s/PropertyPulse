@@ -85,8 +85,8 @@
             <td>{{i.estd_date}}</td>
             <td>{{i.license_num}}</td>
             <td>{{i.owner_name}}</td>
-            <td><img src="{{i.license_proof.url}}" width="100px"/></td>
-            <td><img src="{{i.owner_proof.url}}" width="100px"/></td>
+            <td><a href="{{i.license_proof.url}}" target="_blank"><img src="{{i.license_proof.url}}" width="100px"/></a></td>
+            <td><a href="{{i.owner_proof.url}}" target="_blank"><img src="{{i.owner_proof.url}}" width="100px"/></a></td>
             <td>
                 {% if i.seller_status == 0 %}
                 <a href="{% url 'Admin:acceptseller' i.id %}">Accept</a></td>

@@ -84,7 +84,7 @@
                 <td>{{i.place.district.district_name}}</td>
                 <td>{{i.place.place_name}}</td>
                 <td>{{i.user_address}}</td>
-                <td><img src="{{i.user_image.url}}" width="100px" /></td>
+                <td><a href="{{i.user_image.url}}" target="_blank"><img src="{{i.user_image.url}}" width="100px" /></a></td>
                 <td>
                     {% if i.user_status == 0 %}
                     <a href="{% url 'Admin:acceptuser' i.id %}">Accept</a></td>
