@@ -21,12 +21,12 @@ class tbl_request(models.Model):
     userid=models.ForeignKey(tbl_user,on_delete=models.CASCADE)
 
 class tbl_rating(models.Model):
-    rating_content=models.CharField(max_length=100)
-    rating_value=models.IntegerField(default=0)
-    rating_date=models.DateField(auto_now_add=True)
-    userid=models.ForeignKey(tbl_user,on_delete=models.CASCADE)
-    ownerid=models.ForeignKey(tbl_owner,on_delete=models.CASCADE)
+    rating_data=models.IntegerField()
+    user_name=models.CharField(max_length=500)
+    user_review=models.CharField(max_length=500)
+    datetime=models.DateTimeField(auto_now_add=True)
     propertyid=models.ForeignKey(tbl_property,on_delete=models.CASCADE)
+    userid=models.ForeignKey(tbl_user,on_delete=models.CASCADE)
 
 class tbl_servicerequest(models.Model):
     servicerequest_title=models.CharField(max_length=50)

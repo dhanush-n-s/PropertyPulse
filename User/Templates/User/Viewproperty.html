@@ -3,6 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,6 +89,32 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .text-warning {
+            color: orange;
+        }
+
+        .card {
+            padding: 14px;
+            box-shadow: 0 0 10px gray;
+            width: fit-content;
+            border-radius: 13px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .main {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -103,6 +130,7 @@
                     <td>Title</td>
                     <td>Details</td>
                     <td>Photo</td>
+                    <td>Rating</td>
                     <td>Property Type</td>
                     <td>Amount</td>
                     <td>District</td>
@@ -110,13 +138,21 @@
                     <td colspan="2">Action</td>
                 </tr>
 
-                {% for i in propertydata %}
+                {% for i,j in propertydata %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>{{ i.property_title }}</td>
                     <td>{{ i.property_details }}</td>
                     <td>
                         <img src="{{ i.property_photo.url }}" width="150" height="150">
+                    </td>
+                    <td>
+                        <div>
+                            {% for k in ar %} {% if k <= j %} <i class="fa-solid fa-star text-warning"></i>
+                                {% else %}
+                                <i class="fa-solid fa-star star-light"></i>
+                                {% endif %} {% endfor %}
+                        </div>
                     </td>
                     <td>{{ i.propertytype_id.propertytype_name }}</td>
                     <td>{{ i.property_amount }}</td>
@@ -136,6 +172,7 @@
         </form>
     </div>
 </body>
+
 </html>
 
 {% endblock content %}

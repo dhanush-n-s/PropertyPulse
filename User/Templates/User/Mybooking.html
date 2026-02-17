@@ -3,6 +3,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -141,23 +142,22 @@
                     <td>
                         <a href="{% url 'User:Servicerequest' i.id %}">Services</a>
                     </td>
-
-                    {% if i.request_status == 0 %}
-                        <td>Pending</td>
-                    {% elif i.request_status == 1 %}
-                        <td>
-                            <button>
-                                <a href="{% url 'User:payment' i.id %}">Pay Now</a>
-                            </button>
-                        </td>
-                    {% elif i.request_status == 3 %}
-                        <td>Payment Successful</td>
-                    {% endif %}
-
                     <td>
-                        <a href="{% url 'User:viewservicerequest' %}">View Request</a>
-                    </td>
+                        {% if i.request_status == 0 %}
+                        Pending
+                        {% elif i.request_status == 1 %}
+                        <button>
+                            <a href="{% url 'User:payment' i.id %}">Pay Now</a>
+                        </button>
+                        {% elif i.request_status == 3 %}
+                        Payment Successful
+                        <a href="{% url 'User:rating' i.property.id %}">Rate Now</a>
+                        {% endif %}
 
+                    </td>
+                    <td>
+                        <a href="{% url 'User:viewservicerequestppt' i.id %}">View Request</a>
+                    </td>
 
                 </tr>
                 {% endfor %}
@@ -200,26 +200,29 @@
                     </td>
 
                     {% if i.request_status == 0 %}
-                        <td>Pending</td>
+                    <td>Pending</td>
                     {% elif i.request_status == 1 %}
-                        <td>
-                            <button>
-                                <a href="{% url 'User:payment' i.id %}">Pay Now</a>
-                            </button>
-                        </td>
+                    <td>
+                        <button>
+                            <a href="{% url 'User:payment' i.id %}">Pay Now</a>
+                        </button>
+                    </td>
                     {% elif i.request_status == 3 %}
-                        <td>Payment Successful</td>
+                    <td>Payment Successful</td>
+
                     {% endif %}
 
                     <td>
                         <a href="{% url 'User:viewservicerequest' %}">View Request</a>
                     </td>
+
                 </tr>
                 {% endfor %}
             </table>
         </form>
     </div>
 </body>
+
 </html>
 
 {% endblock content %}
