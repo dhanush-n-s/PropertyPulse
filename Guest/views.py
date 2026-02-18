@@ -107,3 +107,9 @@ def newowner(request):
 
 def indexpage(request):
     return render(request,"Guest/Index.html")
+
+def about(request):
+    return render(request,"Guest/About.html")
+
+def services(request):
+    return render(request,"Guest/Services.html")

@@ -9,6 +9,8 @@ urlpatterns = [
  path('newseller/',views.newseller,name="newseller"),
  path('OwnerRegistration/',views.newowner,name="OwnerRegistration"),
  path('indexpage/',views.indexpage,name="indexpage"),
+ path('about/',views.about,name="about"),
+    path('services/',views.services,name="services"),
 
 
 
